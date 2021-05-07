@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="jumbotron mt-3">
+        <h1 class="display-3">Bienvenue sur SymBNB !</h1>
+        <p class="lead">Nous mettons en relations les voyageurs et les propriétaires qui veulent profiter d'opportunités et gagner de l'argent en proposant leur bien à la location !</p>
+        <hr class="my-4">
+        <p>Vous êtes voyageur ? Et vous voulez voir où vous pourrez loger pour votre prochain déplacement ?</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Voir nos annonces</a>
+        </p>
+    </div>
+
+    <h2 class="h1 my-5">Nos appartements stars</h2>
+
+    <div class="row">
+        {% for rental in rentals %}
+            {% include 'rental/_rental.html.twig' with {'rental': rental.annonce} %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
