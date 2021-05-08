@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
@@ -81,6 +82,7 @@ class User implements UserInterface
 
     public function __construct()
     {
+        $this->roles = ['ROLE_USER'];
         $this->rentals = new ArrayCollection();
     }
 

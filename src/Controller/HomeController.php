@@ -16,7 +16,7 @@ class HomeController extends AbstractController
     */
     public function homepageRentalsList(RentalRepository $rentalRepository)
     {
-        $rentals = $rentalRepository->findBy([], [], 3);
+        $rentals = $rentalRepository->findBy([], [], 30);
         return $this->render('home/home.html.twig', [
             'rentals' => $rentals
         ]);
