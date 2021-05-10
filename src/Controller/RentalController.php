@@ -22,13 +22,29 @@ class RentalController extends AbstractController
     /**
     * @Route("/rentals-list", name="app_rentals_list")
     *
-    * @return void
+    * @return Response
     */
     public function RentalsList(RentalRepository $rentalRepository)
     {
         $rentals = $rentalRepository->findAll();
         return $this->render('rental/rental.html.twig', [
             'rentals' => $rentals
+        ]);
+    }
+
+    /**
+    * @Route("/rental-show/{slug}", name="app_rental_show")
+    *
+    * @return Response
+    */
+    public function rentalShow($slug, RentalRepository $rentalRepository)
+    {
+        $rental = $rentalRepository->findOneBy([
+            'slug' => $slug
+        ]);
+
+        return $this->render('rental/rental_show.html.twig', [
+            'rental' => $rental
         ]);
     }
     

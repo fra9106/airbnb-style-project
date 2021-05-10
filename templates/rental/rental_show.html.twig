@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}liste des locations
+{% block title %}locaction : {{ rental.title }}
 {% endblock %}
 
 {% block body %}
 	<div class="container">
-		<h1>Voici les annonces de nos hôtes !</h1>
+		<h1 class="text-center my-5">{{ rental.title }}</h1>
 		<div class="row">
-			{% for rental in rentals %}
-				<div class="col-md-4">
-					<div class="card bg-light mb-3 rounded ">
+			
+				<div class="col-md-6">
+					<div class="card bg-light mb-3 rounded">
 						<div class="card-header text-center">
 							{{ rental.rooms }}
 							chambres,
 							<strong>{{ rental.price | number_format(2, ',', ' ') }}&euro; / nuit</strong>
 							<br>
-						</div>
+						</div><span class="badge bg-success">Catégorie : {{ rental.category.name}}</span>
 						<img src="{{ rental.coverImage }}" alt="Image de l'appartement" style="height: 200px; width: 100%; display: block">
 						<div class="card-body">
 							<h4 class="card-title">
@@ -24,7 +24,7 @@
 							<p class="card-text">
 								{{ rental.introduction }}
 							</p>
-							<a href="{{ path('app_rental_show', { 'app_rental_category' : rental.category.slug, 'slug': rental.slug}) }}" class="btn btn-primary">En savoir plus !</a>
+							<a href="#" class="btn btn-primary">Je réserve !</a>
 
 							{% if app.user and app.user == rental.author %}
 								<a href="#" class="btn btn-secondary">Modifier l'annonce</a>
@@ -32,7 +32,7 @@
 						</div>
 					</div>
 				</div>
-			{% endfor %}
+			
 		</div>
 	</div>
 {% endblock %}
