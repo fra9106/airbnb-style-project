@@ -20,6 +20,19 @@ class RentalController extends AbstractController
     }
 
     /**
+    * @Route("/rentals-list", name="app_rentals_list")
+    *
+    * @return void
+    */
+    public function RentalsList(RentalRepository $rentalRepository)
+    {
+        $rentals = $rentalRepository->findAll();
+        return $this->render('rental/rental.html.twig', [
+            'rentals' => $rentals
+        ]);
+    }
+    
+    /**
      * @Route("/category/{slug}", name="app_rental_category")
      */
     public function category($slug, CategoryRepository $repo): Response
@@ -32,7 +45,7 @@ class RentalController extends AbstractController
             throw $this->createNotFoundException("Cette catégorie n'existe pas !");
         }
 
-        return $this->render('product/category.html.twig', [
+        return $this->render('rental/category.html.twig', [
             'slug' => $slug,
             'category' => $category
         ]);
