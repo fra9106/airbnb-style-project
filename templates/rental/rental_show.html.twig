@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{rental.title}}
+	{{rental.title}}
 {% endblock %}
 
 {% block body %}
 
-<ol class="breadcrumb">
+	<ol class="breadcrumb">
 		<li class="breadcrumb-item">
 			<a href="{{ path('app_homepage') }}">Accueil</a>
 		</li>
@@ -16,77 +16,82 @@
 		<li class="breadcrumb-item active">{{rental.title}}</li>
 	</ol><br><br><br><br>
 
-<div class="rental-title mb-3" style="background-image: url({{  rental.coverImage }})">
-    <div class="container">
-        <h1>{{rental.title}}</h1>
-        <p>{{rental.introduction}}</p>
-        <p class="h2">
-            <strong>{{rental.rooms}} chambres</strong> pour <strong>{{rental.price | number_format(2, ',', ' ')}}&euro;</strong> par nuit
-        </p>
-        <a href="#" class="btn btn-primary">Réserver !</a>
+	<div class="rental-title mb-3" style="background-image: url({{  rental.coverImage }})">
+		<div class="container">
+			<h1>{{rental.title}}</h1>
+			<p>{{rental.introduction}}</p>
+			<p class="h2">
+				<strong>{{rental.rooms}}
+					chambres</strong>
+				pour
+				<strong>{{rental.price | number_format(2, ',', ' ')}}&euro;</strong>
+				par nuit
+			</p>
+			<a href="#" class="btn btn-primary">Réserver !</a>
 
-        {% if app.user and app.user == rental.author %}
-            <a href="#" class="btn btn-secondary">Modifier l'annonce</a>
+			{% if app.user and app.user == rental.author %}
+				<a href="#" class="btn btn-secondary">Modifier l'annonce</a>
 
-            <a href="#" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{rental.title}} ?`)">Supprimer l'annonce</a>
-        {% endif %}
-    </div>
-</div>
+				<a href="#" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{rental.title}} ?`)">Supprimer l'annonce</a>
+			{% endif %}
+		</div>
+	</div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 mb-3">
-            {{ rental.content | raw }}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 mb-3">
+				{{ rental.content | raw }}
 
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    {% for image in rental.images %}
-                     <li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
-                    {% endfor %}
-                </ol>
-                <div class="carousel-inner">
-                    {% for image in rental.images %}
-                        <div class="carousel-item {% if loop.first %}active{% endif %}">
-                            <img class="d-block w-100" src="{{ image.url }}" alt="First slide">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>{{ rental.title }}</h5>
-                                <p>{{ image.caption }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
+				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						{% for image in rental.images %}
+							<li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
+						{% endfor %}
+					</ol>
+					<div class="carousel-inner">
+						{% for image in rental.images %}
+							<div class="carousel-item {% if loop.first %}active{% endif %}">
+								<img class="d-block w-100" src="{{ image.url }}" alt="First slide">
+								<div class="carousel-caption d-none d-md-block">
+									<h5>{{ rental.title }}</h5>
+									<p>{{ image.caption }}</p>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
 
-            <hr>
+				<hr>
 
-            
-        </div>
-        <div class="col">
-            {% set a = rental.author %}
-            <div class="row mb-3 align-items-center">
-                <div class="col-3">
-                    <a href="#">
-                        <img src="https://randomuser.me/api/portraits/men/27.jpg" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="#">
-                        <h3>{{a.fullName}}</h3>
-                    </a>
-                    <span class="badge bg-primary">{{a.rentals | length}} annonces</span>
-                </div>
-            </div>
-            {{ a.description | raw }}
-        </div>
-    </div>
-</div>
+
+			</div>
+			<div class="col">
+				{% set a = rental.author %}
+				<div class="row mb-3 align-items-center">
+					<div class="col-3">
+						<a href="#">
+							<img src="https://randomuser.me/api/portraits/men/27.jpg" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">
+						</a>
+					</div>
+					<div class="col">
+						<a href="#">
+							<h3>{{a.fullName}}</h3>
+						</a>
+						<span class="badge bg-primary">{{a.rentals | length}}
+							annonces</span>
+					</div>
+				</div>
+				{{ a.description | raw }}
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
