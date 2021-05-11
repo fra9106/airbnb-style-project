@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}location slug
+{% block title %}Categorie :
+	{{ category.name}}
 {% endblock %}
 
 {% block body %}
+<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('app_homepage') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item active">{{ category.name }}</li>
+	</ol>
+	
 	<div class="container">
-		<h1>Voici les annonces de nos hôtes !</h1>
+		<h1>Catégorie : {{category.name }}</h1>
 		<div class="row">
-			{% for rental in rentals %}
-				<div class="col-md-4">
+			{% for rental in category.rentals %}
+				<div class="col-md-4 mt-4">
 					<div class="card bg-light mb-3 rounded ">
 						<div class="card-header text-center">
 							{{ rental.rooms }}
@@ -24,7 +32,7 @@
 							<p class="card-text">
 								{{ rental.introduction }}
 							</p>
-							<a href="#" class="btn btn-primary">En savoir plus !</a>
+							<a href="{{ path('app_rental_show', { 'category_slug' : rental.category.slug, 'slug': rental.slug}) }}" class="btn btn-primary">En savoir plus !</a>
 
 							{% if app.user and app.user == rental.author %}
 								<a href="#" class="btn btn-secondary">Modifier l'annonce</a>

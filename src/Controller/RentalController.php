@@ -33,22 +33,6 @@ class RentalController extends AbstractController
     }
 
     /**
-    * @Route("/{category_slug}/{slug}/", name="app_rental_show")
-    *
-    * @return Response
-    */
-    public function rentalShow($slug, RentalRepository $rentalRepository)
-    {
-        $rental = $rentalRepository->findOneBy([
-            'slug' => $slug
-        ]);
-
-        return $this->render('rental/rental_show.html.twig', [
-            'rental' => $rental
-        ]);
-    }
-    
-    /**
      * @Route("/category/{slug}", name="app_rental_category")
      */
     public function category($slug, CategoryRepository $repo): Response
@@ -66,4 +50,22 @@ class RentalController extends AbstractController
             'category' => $category
         ]);
     }
+
+    /**
+    * @Route("/{category_slug}/{slug}/", name="app_rental_show")
+    *
+    * @return Response
+    */
+    public function rentalShow($slug, RentalRepository $rentalRepository)
+    {
+        $rental = $rentalRepository->findOneBy([
+            'slug' => $slug
+        ]);
+
+        return $this->render('rental/rental_show.html.twig', [
+            'rental' => $rental,
+            'slug' => $slug
+        ]);
+    }
+    
 }
