@@ -29,14 +29,14 @@ class RentalController extends AbstractController
      */
     public function RentalsList(RentalRepository $rentalRepository)
     {
-        $rentals = $rentalRepository->findAll();
+        $rentals = $rentalRepository->findBy([], ['createdAt' => 'DESC']);
         return $this->render('rental/rental.html.twig', [
             'rentals' => $rentals
         ]);
     }
 
     /**
-     * @Route("/new-rental", name="app_new_rental")
+     * @Route("/new/rental", name="app_new_rental")
      *
      * @return Response
      */
@@ -44,25 +44,30 @@ class RentalController extends AbstractController
     {
         //$this->denyAccessUnlessGranted('ROLE_USER');
         $rental = new Rental();
-        //$rental->setAuthor($this->getUser());
+        
         $rental->setCreatedAt(new \Datetime());
         $form = $this->createForm(RentalType::class, $rental);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach($rental->getImages() as $image) {
+                $image->setAd($rental);
+                $manager->persist($image);
+            }
+
+            $rental->setAuthor($this->getUser());
 
             $manager->persist($rental);
             $manager->flush();
 
+
             $this->addFlash(
-                'success',
-                "Votre annonce <strong>{$rental->getTitle()}</strong> a bien été enregistrée !"
+                'message',
+                "Votre annonce : {$rental->getTitle()} a bien été enregistrée !"
             );
 
-            return $this->redirectToRoute('app_rental_show', [
-                'slug' => $rental->getSlug(),
-                'category_slug' => $rental->getCategory()->getSlug(),
-            ]);;
+            return $this->redirectToRoute('app_rentals_list'
+            );
         }
 
 
