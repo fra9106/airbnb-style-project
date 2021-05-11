@@ -34,7 +34,7 @@
 				<p class="card-text">
 					{{ rental.introduction }}
 				</p>
-				<a href="{{ path('app_rental_show', { 'app_rental_category' : rental.category.slug, 'slug': rental.slug}) }}" class="btn btn-primary">En savoir plus !</a>
+				<a href="{{ path('app_rental_show', { 'category_slug' : rental.category.slug, 'slug': rental.slug}) }}" class="btn btn-primary">En savoir plus !</a>
 
 				{% if app.user and app.user == rental.author %}
 					<a href="#" class="btn btn-secondary">Modifier l'annonce</a>

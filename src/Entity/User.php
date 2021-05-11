@@ -80,6 +80,10 @@ class User implements UserInterface
      */
     private $rentals;
 
+    public function getFullName() {
+        return "{$this->firstName} {$this->lastName}";
+    }
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];

@@ -33,7 +33,7 @@ class RentalController extends AbstractController
     }
 
     /**
-    * @Route("/rental-show/{slug}", name="app_rental_show")
+    * @Route("/{category_slug}/{slug}/", name="app_rental_show")
     *
     * @return Response
     */
