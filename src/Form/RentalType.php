@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Rental;
 use App\Entity\Category;
+use App\Form\Config\getConfigType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -15,16 +16,12 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
-class RentalType extends AbstractType
+class RentalType extends getConfigType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, [
-                'label' => 'Titre',
-                'attr' => ['placeholder' => 'Titre de l\'annonce'],
-                'required' => false,
-            ])
+            ->add('title', TextType::class, $this->getConfigurationForm('Titre de l\'annonce','Choisisez un titre pour votre annonce'))
 
             ->add('category', EntityType::class, [
                 'label' => 'Catégorie',
@@ -34,33 +31,11 @@ class RentalType extends AbstractType
                     return strtoupper($category->getName());
                 }
                 ])
-            ->add('introduction', TextType::class, [
-                'label'=> 'Entête',
-                'attr' => ['placeholder' => 'Entête de l\'annonce'],
-                'required' => false,
-            ])
-            ->add('content', TextareaType::class, [
-                'label' => 'Description',
-                'attr' => ['placeholder' => 'Description de l\'annonce'],
-                'required' => false,
-            ])
-            ->add('rooms', IntegerType::class, [
-                'label' => 'Nombre de chambres',
-                'attr' => ['placeholder' => 'Indiquez le nombre de chambres'],
-                'required' => false,
-            ])
-            ->add('price', MoneyType::class, [
-                'label' => 'Prix (par nuit)',
-                'attr' => ['placeholder' => 'Indiquez le prix de la nuit'],
-                'required' => false,
-            ])
-            ->add('coverImage', UrlType::class, [
-                'label' => 'Image',
-                'attr' => ['placeholder' => 'Adresse url d\'une image'],
-                'required' => false,
-            ])
-            
-        
+            ->add('introduction', TextType::class, $this->getConfigurationForm('Intro','Choisissez une introduction à votre annonce'))
+            ->add('content', TextareaType::class, $this->getConfigurationForm('Description de l\'annonce','Donnez une description à votre annonce')) 
+            ->add('rooms', IntegerType::class, $this->getConfigurationForm('Nombre de chambres','Tapez le nombre de chambres disponible'))
+            ->add('price', MoneyType::class, $this->getConfigurationForm('Prix','Indiquez le prix de la nuit'))
+            ->add('coverImage', UrlType::class, $this->getConfigurationForm('Photos','Choisissez une image pour votre annonce'))
         ;
     }
 
