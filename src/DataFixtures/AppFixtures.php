@@ -38,7 +38,7 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN'])
             ->setIntroduction($faker->sentence())
             ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)) . '</p>')
-            ->setPicture('https://avatars.io/twitter/FDevweb')
+            ->setPicture('https://randomuser.me/api/portraits/men/35.jpg')
             ->setCreatedAt($faker->dateTime());
 
         $manager->persist($admin);
