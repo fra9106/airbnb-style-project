@@ -4,16 +4,20 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\ProfileFormType;
+use App\Entity\PasswordUpdate;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
+use App\Form\PasswordUpdateFormType;
+use Symfony\Component\Form\FormError;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -30,9 +34,15 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/register", name="app_register")
+     * 
+     * @return Response
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
-    {
+    public function register(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginFormAuthenticator $authenticator
+    ): Response {
         $user = new User();
         $user->setCreatedAt(new \Datetime());
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -52,7 +62,9 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('contact@monpersoweb.fr', '"Franck Admin"'))
                     ->to($user->getEmail())
@@ -76,9 +88,13 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/verify/email", name="app_verify_email")
+     * 
+     * @return Response
      */
-    public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
-    {
+    public function verifyUserEmail(
+        Request $request,
+        UserRepository $userRepository
+    ): Response {
         $id = $request->get('id');
 
         if (null === $id) {
@@ -101,19 +117,23 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('message', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_homepage');
     }
 
     /**
      * @Route("/profile/edit", name="app_profile_edit")
+     * 
+     * @IsGranted("ROLE_USER")
      *
-     * @return response
+     * @return Response
      */
-    public function profileEdit(Request $request, EntityManagerInterface $manager)
-    {
-        $user =$this->getUser();  
+    public function profileEdit(
+        Request $request,
+        EntityManagerInterface $manager
+    ): Response {
+        $user = $this->getUser();
 
         $form = $this->createForm(ProfileFormType::class, $user);
 
@@ -127,9 +147,51 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('user/profile_edit.html.twig', [
-            'profileForm' =>$form->createView()
+            'profileForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/password-update", name="app_password_update")
+     * 
+     * @IsGranted("ROLE_USER")
+     *
+     * @return Response
+     */
+    public function passwordUpdate(
+        Request $request,
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $passwordEncoder
+    ): Response {
+
+        $user = $this->getUser();
+
+        $passwordUpdate = new PasswordUpdate();
+
+        $form = $this->createForm(PasswordUpdateFormType::class, $passwordUpdate);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if (!password_verify($passwordUpdate->getOldPassword(), $user->getPassword())) {
+                $form->get('oldPassword')->addError(new FormError("Ce mot de passe n'est pas votre mot de passe actuel 😕"));
+            } else {
+                $newPassword = $passwordUpdate->getNewPassword();
+                $encoded = $passwordEncoder->encodePassword($user, $newPassword);
+
+                $user->setPassword($encoded);
+                $manager->persist($user);
+                $manager->flush();
 
 
+                $this->addFlash('message', "Votre nouveau mot de passe à bien été pris en compte 😊 ");
+
+                return $this->redirectToRoute('app_homepage');
+            }
+        }
+
+        return $this->render('security/new_password.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
