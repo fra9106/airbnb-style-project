@@ -12,6 +12,26 @@
         margin-right: 0 !important;
     }
 
+    .mini-avatar {
+        border-radius: 50%;
+        max-width: 35px;
+        max-height: 35px;
+    }
+
+    .profil-rental-name {
+        text-decoration: none;
+    }
+
+    .avatar {
+        border-radius: 50%;
+    }
+
+    .img-appart {
+        height: 200px;
+        width: 100%;
+        display: block
+    }
+
     .fixed-top {
         position: fixed;
         top: 0;

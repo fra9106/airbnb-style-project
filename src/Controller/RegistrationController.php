@@ -194,4 +194,18 @@ class RegistrationController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/profile/{slug}/", name="app_profile_display")
+     *
+     * @IsGranted("ROLE_USER")
+     * 
+     * @return Response
+     */
+    public function profileDisplay(User $user): Response
+    {
+        return $this->render('user/profile_display.html.twig', [
+            'user' => $user
+        ]);
+    }
 }
