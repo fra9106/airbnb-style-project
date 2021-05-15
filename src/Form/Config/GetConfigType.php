@@ -4,7 +4,7 @@ namespace App\Form\Config;
 
 use Symfony\Component\Form\AbstractType;
 
-class getConfigType extends AbstractType
+class GetConfigType extends AbstractType
 {
     protected function getConfigurationForm($label, $placeholder, $options = []) {
         return array_merge_recursive([

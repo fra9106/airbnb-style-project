@@ -3,18 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\ProfileFormType;
 use App\Security\EmailVerifier;
-use App\Security\LoginFormAuthenticator;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use Symfony\Component\Mime\Address;
+use App\Security\LoginFormAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -102,5 +104,32 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_homepage');
+    }
+
+    /**
+     * @Route("/profile/edit", name="app_profile_edit")
+     *
+     * @return response
+     */
+    public function profileEdit(Request $request, EntityManagerInterface $manager)
+    {
+        $user =$this->getUser();  
+
+        $form = $this->createForm(ProfileFormType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('message', "Vos modifications ont été pris en compte 😊 ");
+        }
+
+        return $this->render('user/profile_edit.html.twig', [
+            'profileForm' =>$form->createView()
+        ]);
+
+
     }
 }

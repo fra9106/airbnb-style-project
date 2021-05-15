@@ -3,11 +3,8 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -32,6 +29,7 @@ class RegistrationFormType extends GetConfigType
             ->add('description', TextareaType::class,  $this->getConfigurationForm('Description','Une petite description de votre personalité'))
             
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => "En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées pour le site D'un hôte à l'autre. Pour connaître et exercer vos droits, notamment de retrait de votre consentement à l'utilisation des données collectées par ce formulaire, veuillez consulter notre règle de confidentialité. ",
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
