@@ -194,8 +194,10 @@ class RegistrationController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
+    
     /**
+     * account of the user by his property 
+     *
      * @Route("/profile/{slug}/", name="app_profile_display")
      *
      * @IsGranted("ROLE_USER")
@@ -208,4 +210,5 @@ class RegistrationController extends AbstractController
             'user' => $user
         ]);
     }
+
 }
