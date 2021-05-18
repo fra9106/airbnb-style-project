@@ -15,7 +15,7 @@
 		</li>
 		<li class="breadcrumb-item active">{{rental.title}}</li>
 	</ol><br><br><br><br>
-
+{% set delete_rental = path('app_rental_delete', {'slug':rental.slug}) %}
 	<div class="rental-title mb-3" style="background-image: url({{  rental.coverImage }})">
 		<div class="container">
 			<h1>{{rental.title}}</h1>
@@ -32,7 +32,7 @@
 			{% if app.user and app.user == rental.author %}
 				<a href="{{ path('app_rental_edit', { 'slug': rental.slug }) }}" class="btn btn-secondary">Modifier l'annonce</a>
 
-				<a href="#" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{rental.title}} ?`)">Supprimer l'annonce</a>
+				<a href="{{ delete_rental }}" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{rental.title}} ?`)">Supprimer l'annonce</a>
 			{% endif %}
 		</div>
 	</div>

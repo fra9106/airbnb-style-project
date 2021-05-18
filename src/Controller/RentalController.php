@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -118,6 +119,8 @@ class RentalController extends AbstractController
 
     /**
      * @Route("/rental/{slug}/edit", name="app_rental_edit")
+     * 
+     * @Security("is_granted('ROLE_USER') and user === rental.getAuthor()", message="Vous n'êtes pas propriétaire de cette annonce, vous ne pouvez donc pas la modifier")
      *
      * @return Response
      */
@@ -152,5 +155,27 @@ class RentalController extends AbstractController
             'rental' => $rental,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/rental/{slug}/delete", name="app_rental_delete")
+     * 
+     * @Security("is_granted('ROLE_USER') and user === rental.getAuthor()", message="Vous n'êtes pas propriétaire de cette annonc, vous ne pouvez pas la supprimer")
+     *
+     * @return void
+     */
+    public function rentalDelete(Rental $rental, EntityManagerInterface $manager)
+    {
+        $manager->remove($rental);
+        $manager->flush();
+
+        $this->addFlash(
+            'message',
+            "Votre annonce a bien été supprimée !"
+        );
+
+        return $this->redirectToRoute(
+            'app_rentals_list'
+        );
     }
 }
