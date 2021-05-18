@@ -8,11 +8,12 @@ use App\Form\Config\getConfigType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class RentalType extends getConfigType
 {
@@ -34,6 +35,10 @@ class RentalType extends getConfigType
             ->add('rooms', IntegerType::class, $this->getConfigurationForm('Nombre de chambres','Tapez le nombre de chambres disponible'))
             ->add('price', MoneyType::class, $this->getConfigurationForm('Prix','Indiquez le prix de la nuit'))
             ->add('coverImage', UrlType::class, $this->getConfigurationForm('Photos','Choisissez une image pour votre annonce'))
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'allow_add' => true,
+             ])
         ;
     }
 

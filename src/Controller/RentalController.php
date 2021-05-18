@@ -7,10 +7,11 @@ use App\Form\RentalType;
 use App\Repository\RentalRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class RentalController extends AbstractController
 {
@@ -37,12 +38,14 @@ class RentalController extends AbstractController
 
     /**
      * @Route("/new/rental", name="app_new_rental")
+     * 
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
     public function newRental(Request $request, EntityManagerInterface $manager)
     {
-        //$this->denyAccessUnlessGranted('ROLE_USER');
+        
         $rental = new Rental();
         
         $rental->setCreatedAt(new \Datetime());
@@ -51,7 +54,7 @@ class RentalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             foreach($rental->getImages() as $image) {
-                $image->setAd($rental);
+                $image->setRental($rental);
                 $manager->persist($image);
             }
 
