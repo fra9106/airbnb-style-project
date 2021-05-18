@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Rental;
 use App\Entity\Category;
-use App\Form\Config\getConfigType;
+use App\Form\Config\GetConfigType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
