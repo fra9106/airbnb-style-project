@@ -1,20 +1,21 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Création d'une annonce
+{% block title %}Edition de l'annonce :
+	{{rental.title}}
 {% endblock %}
 
 {% form_theme form 'rental/_collection.html.twig' %}
 
 {% block body %}
+	<div class="container">
+		<h1>Modifier l'annonce :
+			{{rental.title}}</h1>
 
-	<div class "container">
-
-		<h1>Créer une nouvelle annonce</h1><br>
 		{{ form_start(form) }}
 
-		{{ form_widget(form) }}<br>
+		{{ form_widget(form) }}
 
-		<button type="submit" class="btn btn-primary">Je créé mon annonce !</button>
+		<button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
 
 		{{ form_end(form) }}
 	</div>

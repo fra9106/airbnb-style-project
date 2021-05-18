@@ -10,9 +10,8 @@ $(document).ready(function () {
 
         $('#widget-counter').val(index + 1); // ... et on rejoute 1
         handleDeleteButtons();
-        
-    });
 
+    });
 
     function handleDeleteButtons() {
         $('button[data-action="delete"]').click(function () {
@@ -23,6 +22,14 @@ $(document).ready(function () {
         });
     }
 
-    handleDeleteButtons;
-    
+    function updateCounter() {
+        const count = +$('#rental_images div.form-group').length;
+
+        $('#widget-counter').val(count);
+    }
+
+    updateCounter();
+
+    handleDeleteButtons();
+
 });

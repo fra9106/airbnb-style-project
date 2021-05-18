@@ -34,11 +34,12 @@ class RentalType extends getConfigType
             ->add('content', TextareaType::class, $this->getConfigurationForm('Description de l\'annonce','Donnez une description à votre annonce')) 
             ->add('rooms', IntegerType::class, $this->getConfigurationForm('Nombre de chambres','Tapez le nombre de chambres disponible'))
             ->add('price', MoneyType::class, $this->getConfigurationForm('Prix','Indiquez le prix de la nuit'))
-            ->add('coverImage', UrlType::class, $this->getConfigurationForm('Photos','Choisissez une image pour votre annonce'))
+            ->add('coverImage', UrlType::class, $this->getConfigurationForm('Photo','Choisissez une photo pour votre annonce (URL)'))
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'allow_add' => true,
-             ])
+                'allow_delete' => true
+                ])
         ;
     }
 

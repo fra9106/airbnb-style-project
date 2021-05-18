@@ -45,15 +45,15 @@ class RentalController extends AbstractController
      */
     public function newRental(Request $request, EntityManagerInterface $manager)
     {
-        
+
         $rental = new Rental();
-        
+
         $rental->setCreatedAt(new \Datetime());
         $form = $this->createForm(RentalType::class, $rental);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach($rental->getImages() as $image) {
+            foreach ($rental->getImages() as $image) {
                 $image->setRental($rental);
                 $manager->persist($image);
             }
@@ -69,7 +69,8 @@ class RentalController extends AbstractController
                 "Votre annonce : {$rental->getTitle()} a bien été enregistrée !"
             );
 
-            return $this->redirectToRoute('app_rentals_list'
+            return $this->redirectToRoute(
+                'app_rentals_list'
             );
         }
 
@@ -112,6 +113,44 @@ class RentalController extends AbstractController
         return $this->render('rental/rental_show.html.twig', [
             'rental' => $rental,
 
+        ]);
+    }
+
+    /**
+     * @Route("/rental/{slug}/edit", name="app_rental_edit")
+     *
+     * @return Response
+     */
+    public function rentalEdit(Rental $rental, Request $request, EntityManagerInterface $manager):Response
+    {
+        $rental->setUpdateAt(new \Datetime());
+        $form = $this->createForm(RentalType::class, $rental);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($rental->getImages() as $image) {
+                $image->setRental($rental);
+                $manager->persist($image);
+            }
+
+
+            $manager->persist($rental);
+            $manager->flush();
+
+
+            $this->addFlash(
+                'message',
+                "Votre annonce : {$rental->getTitle()} a bien été modifiée !"
+            );
+
+            return $this->redirectToRoute(
+                'app_rentals_list'
+            );
+        }
+
+        return $this->render('rental/edit_rental.html.twig', [
+            'rental' => $rental,
+            'form' => $form->createView()
         ]);
     }
 }

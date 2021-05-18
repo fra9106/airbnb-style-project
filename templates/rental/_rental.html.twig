@@ -6,14 +6,10 @@
 			chambres,
 			<strong>{{ rental.price | number_format(2, ',', ' ') }}&euro; / nuit</strong>
 			<br>
-
-
 		</div>
-
 		<a href="{{ url }}">
 			<img src="{{ rental.coverImage }}" alt="Image de l'appartement" class="img-appart">
 		</a>
-
 		<div class="card-body">
 			<h4 class="card-title">
 				<a href="{{ url }}">
@@ -25,7 +21,7 @@
 			</p>
 			<a href="{{ url }}" class="btn btn-primary">En savoir plus !</a>
 			{% if app.user and app.user == rental.author %}
-				<a href="#" class="btn btn-secondary">Modifier l'annonce</a>
+				<a href="{{ path('app_rental_edit', { 'slug': rental.slug }) }}" class="btn btn-secondary">Modifier l'annonce</a>
 			{% endif %}
 		</div>
 	</div>

@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(
  *  fields={"title"},
- *  message="Une autre annonce possède déjà ce titre, merci de le modifier"
+ *  message="Une autre annonce possède déjà ce titre !"
  * )
  */
 class Rental
@@ -29,6 +29,8 @@ class Rental
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\Length(min=10, max=255, minMessage="Le titre doit faire plus de 10 caractères !", maxMessage="Le titre ne peut pas faire     plus de 255 caractères")
      */
     private $title;
 
@@ -39,26 +41,36 @@ class Rental
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Assert\Length(min=20, minMessage="Votre introduction doit faire plus de 20 caractères")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Assert\Length(min=20, minMessage="Votre introduction doit faire plus de 50 caractères")
      */
     private $content;
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Assert\NotBlank(message="Le nombre de chambres est obligatoire !")
      */
     private $rooms;
 
     /**
      * @ORM\Column(type="float")
+     * 
+     * @Assert\NotBlank(message="Le prix de la nuit est obligatoire !")
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Assert\Url()
      */
     private $coverImage;
 
@@ -120,8 +132,9 @@ class Rental
      * 
      * @return void
      */
-    public function initializeSlug() {
-        if(empty($this->slug)) {
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);
         }
@@ -277,5 +290,4 @@ class Rental
 
         return $this;
     }
-
 }
