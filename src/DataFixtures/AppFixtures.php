@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Rental;
+use App\Entity\Booking;
 use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -16,7 +17,6 @@ class AppFixtures extends Fixture
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
-        
     }
 
 
@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        
+
         $faker->addProvider(new \Liior\Faker\Prices($faker));
         $faker->addProvider(new \Bezhanov\Faker\Provider\Avatar($faker));
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker));
@@ -73,19 +73,19 @@ class AppFixtures extends Fixture
 
         $category1 = new Category();
         $category1->setName("Appartement");
-        
+
         $manager->persist($category1);
-        
+
         $category2 = new Category();
         $category2->setName("Maison");
-        
+
         $manager->persist($category2);
-        
+
         $category3 = new Category();
         $category3->setName("Villa VIP");
 
         $manager->persist($category3);
-        
+
 
 
         for ($i = 1; $i <= 10; $i++) {
@@ -184,9 +184,32 @@ class AppFixtures extends Fixture
                 $manager->persist($image);
             }
 
-            $manager->persist($rental);
+           
+        
+        // Gestion des réservations
+        for ($j = 1; $j <= mt_rand(0, 10); $j++) {
+            $booking = new Booking();
+
+            $createdAt = $faker->dateTimeBetween('-6 months');
+            $startAt = $faker->dateTimeBetween('-3 months');
+            // Gestion de la date de fin
+            $duration  = mt_rand(3, 10);
+            $endAt   = (clone $startAt)->modify("+$duration days");
+
+            $amount    =  $rental->getPrice() * $duration;
+            $booker    = $users[mt_rand(0, count($users) - 1)];
+
+            $booking->setBooker($booker)
+                ->setRental($rental)
+                ->setStartAt($startAt)
+                ->setEndAt($endAt)
+                ->setCreatedAt($createdAt)
+                ->setAmount($amount);
+
+            $manager->persist($booking);
         }
-    
+        $manager->persist($rental);
+    }
         $manager->flush();
     }
 }
