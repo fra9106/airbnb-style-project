@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation {{ rental.title }}{% endblock %}
+
+{% block body %}
+<div classe="container">
+		<div class="row">
+			<div class="col-md-3">&nbsp;</div>
+			<div class="col-md-6">
+				<div class="bg-light py-3 px-3 border border-2">
+					<h1>Réservation de l'annonce : {{ rental.title }}
+					</h1>
+                    <p>Vous êtes sur le point de réserver chez {{ rental.author.fullname }} 🤗</p>
+                    
+					{{ form_start(form) }}
+
+					{{ form_widget(form) }}
+
+					<button type="submit" class="btn btn-primary my-4">Je réserve !</button>
+
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
