@@ -184,32 +184,32 @@ class AppFixtures extends Fixture
                 $manager->persist($image);
             }
 
-           
-        
-        // Gestion des réservations
-        for ($j = 1; $j <= mt_rand(0, 10); $j++) {
-            $booking = new Booking();
+            // Gestion des réservations
+            for ($j = 1; $j <= mt_rand(0, 10); $j++) {
+                $booking = new Booking();
 
-            $createdAt = $faker->dateTimeBetween('-6 months');
-            $startAt = $faker->dateTimeBetween('-3 months');
-            // Gestion de la date de fin
-            $duration  = mt_rand(3, 10);
-            $endAt   = (clone $startAt)->modify("+$duration days");
+                $createdAt = $faker->dateTimeBetween('-6 months');
+                $startAt = $faker->dateTimeBetween('-3 months');
+                // Gestion de la date de fin
+                $duration  = mt_rand(3, 10);
+                $endAt   = (clone $startAt)->modify("+$duration days");
 
-            $amount    =  $rental->getPrice() * $duration;
-            $booker    = $users[mt_rand(0, count($users) - 1)];
+                $amount    =  $rental->getPrice() * $duration;
+                $booker    = $users[mt_rand(0, count($users) - 1)];
+                $comment = $faker->paragraph();
 
-            $booking->setBooker($booker)
-                ->setRental($rental)
-                ->setStartAt($startAt)
-                ->setEndAt($endAt)
-                ->setCreatedAt($createdAt)
-                ->setAmount($amount);
+                $booking->setBooker($booker)
+                    ->setRental($rental)
+                    ->setStartAt($startAt)
+                    ->setEndAt($endAt)
+                    ->setCreatedAt($createdAt)
+                    ->setAmount($amount)
+                    ->setComment($comment);
 
-            $manager->persist($booking);
+                $manager->persist($booking);
+            }
+            $manager->persist($rental);
         }
-        $manager->persist($rental);
-    }
         $manager->flush();
     }
 }

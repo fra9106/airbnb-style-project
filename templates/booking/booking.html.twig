@@ -1,26 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réservation {{ rental.title }}{% endblock %}
+{% block title %}Réservation
+	{{ rental.title }}
+{% endblock %}
 
 {% block body %}
-<div classe="container">
-		<div class="row">
-			<div class="col-md-3">&nbsp;</div>
-			<div class="col-md-6">
-				<div class="bg-light py-3 px-3 border border-2">
-					<h1>Réservation de l'annonce : {{ rental.title }}
-					</h1>
-                    <p>Vous êtes sur le point de réserver chez {{ rental.author.fullname }} 🤗</p>
-                    
-					{{ form_start(form) }}
+	<div class="container">
+		<h1>Réservez pour l'annonce :
+			<em>{{ rental.title }}</em>
+		</h1>
 
-					{{ form_widget(form) }}
+		<p>Vous êtes sur le point de réserver chez de
+			<strong>{{ rental.author.fullName }}</strong></p>
 
-					<button type="submit" class="btn btn-primary my-4">Je réserve !</button>
-
-					{{ form_end(form) }}
+		{{ form_start(form) }}
+		<div class="alert alert-light">
+			<h2 class="h4">Date du séjour :</h2>
+			<div class="row">
+				<div class="col">
+					{{form_row(form.startAt)}}
+				</div>
+				<div class="col">
+					{{form_row(form.endAt)}}
 				</div>
 			</div>
+			<h4 class="mt-2">Montant du séjour :
+				<span id="amount">...</span>
+				&euro;</h4>
+			<span id="days">0</span>
+			nuit(s) à
+			{{ rental.price }}&euro; par nuit
+
+			<h4 class="mt-3">Laisser un commentaire :</h4>
+			{{ form_row(form.comment) }}
 		</div>
+
+
+		<h2>Vous avez terminé !</h2>
+		<p>Petit week-end ou vacances de rêve ? Hébergement pour le travail ? Peu importe, on est avec vous !</p>
+
+		<button type="submit" class="btn btn-success">Je réserve !</button>
+
+		{{form_end(form)}}
+
 	</div>
 {% endblock %}
