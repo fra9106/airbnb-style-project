@@ -27,7 +27,7 @@
 				<strong>{{rental.price | number_format(2, ',', ' ')}}&euro;</strong>
 				par nuit
 			</p>
-			<a href="{{ path('app_rental_booking', { 'slug': rental.slug }) }}" class="btn btn-primary">Réserver !</a>
+			<a href="{{ path('app_booking', { 'slug': rental.slug }) }}" class="btn btn-primary">Réserver !</a>
 
 			{% if app.user and app.user == rental.author %}
 				<a href="{{ path('app_rental_edit', { 'slug': rental.slug }) }}" class="btn btn-secondary">Modifier l'annonce</a>

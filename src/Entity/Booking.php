@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BookingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
@@ -32,11 +33,13 @@ class Booking
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Attention, la date d'arrivée doit être au bon format !")
      */
     private $startAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Attention, la date de départ doit être au bon format !")
      */
     private $endAt;
 
@@ -63,18 +66,20 @@ class Booking
      * 
      * @return void
      */
-    public function prePersist() {
-        if(empty($this->createdAt)) {
+    public function prePersist()
+    {
+        if (empty($this->createdAt)) {
             $this->createdAt = new \DateTime();
         }
 
-        if(empty($this->amount)) {
+        if (empty($this->amount)) {
             // prix de l'annonce * nombre de jour
             $this->amount = $this->rental->getPrice() * $this->getDuration();
         }
     }
 
-    public function getDuration() {
+    public function getDuration()
+    {
         $difference = $this->endAt->diff($this->startAt);
         return $difference->days;
     }

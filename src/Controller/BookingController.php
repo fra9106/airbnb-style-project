@@ -15,11 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 class BookingController extends AbstractController
 {
     /**
-     * @Route("/rental/{slug}/booking", name="app_rental_booking")
+     * @Route("/rental/{slug}/booking", name="app_booking")
      * 
      * @IsGranted("ROLE_USER")
      */
-    public function Rentalbooking(Rental $rental, Request $request, EntityManagerInterface $manager): Response
+    public function booking(Rental $rental, Request $request, EntityManagerInterface $manager): Response
     {
 
         $booking = new Booking();
@@ -29,24 +29,36 @@ class BookingController extends AbstractController
         $form = $this->createForm(BookingType::class, $booking);
         $form->handleRequest($request);
 
-        //dd($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $manager->persist($booking);
             $manager->flush();
 
-            $this->addFlash(
-                'message',
-                "Votre réservation a bien été enregistrée 😍 !"
-            );
 
             return $this->redirectToRoute(
-                'app_homepage'
+                'app_booking_show',
+                [
+                    'id' => $booking->getId(),
+                    'withAlert' => true
+                ]
             );
         }
         return $this->render('booking/booking.html.twig', [
             'rental' => $rental,
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/booking-show/{id}", name="app_booking_show")
+     *
+     * @param Booking $booking
+     * @return void
+     */
+    public function bookingShow(Booking $booking)
+    {
+        return $this->render("booking/booking_show.html.twig", [
+            'booking' => $booking
         ]);
     }
 }
