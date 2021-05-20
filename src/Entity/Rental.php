@@ -146,6 +146,32 @@ class Rental
         }
     }
 
+    /**
+     * Permet d'obtenir un tableau des jours qui ne sont pas disponibles pour cette annonce
+     *
+     * @return array Un tableau d'objets DateTime représentant les jours d'occupation
+     */
+    public function getNotAvailableDays() {
+        $notAvailableDays = [];
+
+        foreach($this->bookings as $booking) {
+            // Calculer les jours qui se trouvent entre la date d'arrivée et de départ
+            $resultat = range(
+                $booking->getStartAt()->getTimestamp(), 
+                $booking->getEndAt()->getTimestamp(), 
+                24 * 60 * 60
+            );
+            
+            $days = array_map(function($dayTimestamp){
+                return new \DateTime(date('Y-m-d', $dayTimestamp));
+            }, $resultat);
+
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+        }
+
+        return $notAvailableDays;
+    }
+
     public function getSlug(): ?string
     {
         return $this->slug;
