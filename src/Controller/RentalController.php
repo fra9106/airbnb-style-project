@@ -67,7 +67,7 @@ class RentalController extends AbstractController
 
             $this->addFlash(
                 'message',
-                "Votre annonce : {$rental->getTitle()} a bien été enregistrée !"
+                "Votre annonce : {$rental->getTitle()} a bien été enregistrée 🤩 !"
             );
 
             return $this->redirectToRoute(
