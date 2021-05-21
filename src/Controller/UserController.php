@@ -12,7 +12,7 @@ class UserController extends AbstractController
     /**
      * account user logged
      * 
-     * @Route("/account-user/", name="app_account_user")
+     * @Route("/account-user", name="app_account_user")
      * 
      * @IsGranted("ROLE_USER")
      * 
@@ -25,5 +25,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    
+    /**
+     * @Route("/bookings-user", name="app_bookings_user")
+     *
+     * @return Response
+     */
+    public function bookingsUser():Response 
+    {
+        return $this->render('user/bookings_user_list.html.twig');
+    }
 }

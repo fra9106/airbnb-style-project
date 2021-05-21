@@ -4,44 +4,84 @@
 	{{ rental.title }}
 {% endblock %}
 
+{% block stylesheet %}
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css"/>
+{% endblock %}
+
 {% block body %}
 	<div class="container">
-		<h1>Réservez pour l'annonce :
+		<h1 class="my-4">Réservez pour l'annonce :
 			<em>{{ rental.title }}</em>
 		</h1>
 
-		<p>Vous êtes sur le point de réserver chez de
-			<strong>{{ rental.author.fullName }}</strong></p>
+		<p class="my-4">Vous êtes sur le point de réserver chez de
+			<strong>{{ rental.author.fullName }}</strong>
+		</p>
 
 		{{ form_start(form) }}
 		<div class="alert alert-light">
 			<h2 class="h4">Date du séjour :</h2>
 			<div class="row">
-				<div class="col">
+				<div class="col my-4 ">
 					{{form_row(form.startAt)}}
 				</div>
-				<div class="col">
+				<div class="col my-4">
 					{{form_row(form.endAt)}}
 				</div>
 			</div>
-			<h4 class="mt-2">Montant du séjour :
+			<h4 class="my-4">Montant du séjour :
 				<span id="amount">...</span>
 				&euro;</h4>
-			<span id="days">0</span>
+			<span id="nights">0</span>
 			nuit(s) à
 			{{ rental.price }}&euro; par nuit
 
-			<h4 class="mt-3">Laisser un commentaire :</h4>
+			<h4 class="my-4">Laisser un commentaire :</h4>
 			{{ form_row(form.comment) }}
 		</div>
 
-
-		<h2>Vous avez terminé !</h2>
-		<p>Petit week-end ou vacances de rêve ? Hébergement pour le travail ? Peu importe, on est avec vous !</p>
-
-		<button type="submit" class="btn btn-success">Je réserve !</button>
-
+		<button type="submit" class="btn btn-success my-4">Je réserve !</button>
+		<br><br>
 		{{form_end(form)}}
 
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('#booking_startAt, #booking_endAt').datepicker({
+				format: 'dd/mm/yyyy',
+				datesDisabled: 
+					[{% for day in rental.notAvailableDays %}
+					"{{ day.format('d/m/Y') }}",
+					{% endfor %}
+				],
+				startDate: new Date()
+			});
+
+			$('#booking_startAt, #booking_endAt').on('change', calculateAmount);
+			});
+
+			function calculateAmount() { 
+				const endAt = new Date($('#booking_endAt').val().replace(/(\d+)\/(\d+)\/(\d{4})/, '$3-$2-$1'));
+
+				const startAt = new Date($('#booking_startAt').val().replace(/(\d+)\/(\d+)\/(\d{4})/, '$3-$2-$1'));
+
+				if (startAt && endAt && startAt < endAt) {
+					const DAY_TIME = 24 * 60 * 60 * 1000;
+
+					const interval = endAt.getTime() - startAt.getTime();
+					const days = interval / DAY_TIME;
+					const amount = days * {{ rental.price }};
+
+					$('#nights').text(days);
+					$('#amount').text(amount.toLocaleString('fr-FR'));
+				}
+			}
+	</script>
 {% endblock %}

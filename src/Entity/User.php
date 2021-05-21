@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OrderBy;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -95,6 +96,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="booker")
+     * @OrderBy({"createdAt" = "DESC"})
      */
     private $bookings;
 

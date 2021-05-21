@@ -55,6 +55,10 @@
         text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
     }
 
+    .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+        color: firebrick !important;
+    }
+
     @media (min-width: 992px) {
         .navbar-expand-lg .navbar-nav .nav-link {
             padding-left: .9rem !important;
