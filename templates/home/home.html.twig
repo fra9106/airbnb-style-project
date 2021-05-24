@@ -25,6 +25,11 @@
 				chambres,
 				<strong>{{ rental.price | number_format(2, ',', ' ') }}&euro; / nuit</strong>
 				<br>
+				{% if rental.comments|length > 0 %}
+                {% include 'shared/rating.html.twig' with {'rating': rental.avgRatings} %}
+            {% else %}
+                <small>Pas encore noté</small>
+            {% endif %}
 			</div>
 			<img src="{{ rental.coverImage }}" alt="Image de l'appartement" style="height: 200px; width: 100%; display: block">
 			<div class="card-body">

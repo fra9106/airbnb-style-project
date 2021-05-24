@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Rental;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -207,6 +208,17 @@ class AppFixtures extends Fixture
                     ->setComment($comment);
 
                 $manager->persist($booking);
+
+                // Gestion des commentaires au niveau de la résa
+                if (mt_rand(0, 1)) { // une résa sur 2 aura un commentaire
+                    $comment = new Comment();
+                    $comment->setContent($faker->paragraph())
+                        ->setRating(mt_rand(1, 5))
+                        ->setAuthor($booker)
+                        ->setRental($rental);
+
+                    $manager->persist($comment);
+                }
             }
             $manager->persist($rental);
         }

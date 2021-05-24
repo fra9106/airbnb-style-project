@@ -18,6 +18,10 @@
         max-height: 35px;
     }
 
+    span.rating i {
+        color: goldenrod;
+    }
+
     .profil-rental-name {
         text-decoration: none;
     }
