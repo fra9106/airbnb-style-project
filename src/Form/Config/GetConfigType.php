@@ -15,7 +15,7 @@ class GetConfigType extends AbstractType
      * @return array
      */
     protected function getConfigurationForm($label, $placeholder, $options = []) {
-        return array_merge_recursive([
+        return array_merge_recursive([ //recursive pour ne pas gêner les attr si on en met un autre dans les options ex : le placeholder pourrait être recouvert.
             'label' => $label,
             'attr' => [
                 'placeholder' => $placeholder,

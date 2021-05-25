@@ -4,13 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Rental;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Form\BookingType;
+use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class BookingController extends AbstractController
 {
@@ -24,7 +26,7 @@ class BookingController extends AbstractController
 
         $booking = new Booking();
         $booking->setBooker($this->getUser())
-            ->setRental($rental);
+                ->setRental($rental);
 
         $form = $this->createForm(BookingType::class, $booking);
         $form->handleRequest($request);
@@ -63,12 +65,34 @@ class BookingController extends AbstractController
      * @Route("/booking-show/{id}", name="app_booking_show")
      *
      * @param Booking $booking
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * 
      * @return void
      */
-    public function bookingShow(Booking $booking)
+    public function bookingShow(Booking $booking, Request $request, EntityManagerInterface $manager)
     {
+        $comment = new Comment();
+        $comment->setAuthor($this->getUser())
+                ->setRental($booking->getRental());
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+                $manager->persist($comment);
+                $manager->flush();
+
+                $this->addFlash(
+                    'message',
+                    "Votre commentaire a bien été pris en compte !👍😉 "
+                );
+        }
+
         return $this->render("booking/booking_show.html.twig", [
-            'booking' => $booking
+            'booking' => $booking,
+            'form' => $form->createView()
         ]);
     }
 }
