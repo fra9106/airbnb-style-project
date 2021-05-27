@@ -93,7 +93,7 @@ class LoginFormAuthenticatorAdmin extends AbstractFormLoginAuthenticator impleme
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        $request->getSession()->getFlashBag()->add('message', 'Vous êtes connecté ! Content de vous revoir ' . $token->getUser()->getFullName());
+        $request->getSession()->getFlashBag()->add('success', 'Vous êtes connecté ! Content de vous revoir ' . $token->getUser()->getFullName());
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title>
 			D'un hôte à l'autre -
-			{% block title %}Welcome!
+			{% block title %}Bienvenue!
 			{% endblock %}
 		</title>
 		{% block stylesheets %}
@@ -16,11 +15,10 @@
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 		{% endblock %}
 	</head>
-
 	<body>
 		{% include "shared/_navbar.html.twig" %}
 		<div class="container pt-5"><br><br>
-			{% for message in app.flashes('message') %}
+			{% for message in app.flashes('success') %}
 				<div class="alert alert-success text-center" role="alert">
 					{{ message}}
 				</div>
