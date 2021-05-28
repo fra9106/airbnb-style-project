@@ -10,13 +10,13 @@
 			{{ comment.id }}</h1>
 
 		<div class="alert alert-info mt-3">
-			<p>Annonce lié :
+			<p><strong>Annonce lié :</strong>
 				{{ comment.rental.title }}</p>
-			<p>Auteur :
+			<p><strong>Auteur :</strong>
 				{{ comment.author.fullName }}</p>
-			<p>Date de création :
+			<p><strong>Date de création :</strong>
 				{{ comment.createdAt | date('d/m/Y H:i')  }}</p>
-			<p>Note donnée :
+			<p><strong>Note donnée :</strong>
 				{{ comment.rating }}</p>
 		</div>
 		<div class="my-3">

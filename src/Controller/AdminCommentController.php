@@ -42,6 +42,8 @@ class AdminCommentController extends AbstractController
             $manager->flush();
 
             $this->addFlash('success', "le commentaire numéro : {$comment->getId()} a bien été modififié 🤗");
+
+            return $this->redirectToRoute('admin_comments_list');
         }
 
         return $this->render('admin/comment/admin_comment_edit.html.twig', [
