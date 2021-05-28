@@ -47,6 +47,29 @@ class Comment
     private $author;
 
     /**
+     * Permet d'obtenir la note moyenne d'une annonce
+     *
+     * @return float
+     */
+    public function getAvgRatings() {
+        /* Calculer la somme des notations :
+        
+        1= réduire la longueur du tableau commentaire en une seule valeur avec la fonction php array_reduce, 
+        nous sommes dans le cas d'un arrayCollection et donc cette toArray nous renvoi un vrai tableau.
+
+        */
+
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment) {
+            return $total + $comment->getRating();
+        }, 0);
+
+        // Faire la division pour avoir la moyenne
+        if(count($this->comments) > 0) return $sum / count($this->comments);
+
+        return 0;
+    }
+
+    /**
      * Callback appelé à chaque fois qu'on créé un commentaire de résa
      *
      * @ORM\PrePersist

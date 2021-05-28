@@ -1,0 +1,52 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des commentaires!
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<h1 class="my-5">Gestion de commentaires</h1>
+
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Date</th>
+					<th>Auteur</th>
+					<th>Commentaire</th>
+					<th>Note</th>
+					<th>Annonce</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for comment in comments %}
+					<tr>
+						<td>{{comment.id}}</td>
+						<td>{{comment.createdAt | date('d/m/Y H:i')}}</td>
+						<td>
+							<img src="{{comment.author.picture}}" alt="Avatar de {{comment.author.fullName}}" class="mini-avatar mr-2">
+							{{comment.author.fullName}}
+						</td>
+						<td>
+							{{comment.content}}
+						</td>
+						<td>
+							<span class="badge bg-primary rounded">{{comment.rental.avgRatings | number_format(1, ',', ' ')}}</span>
+						</td>
+						<td>{{comment.rental.title}}</td>
+						<td>
+							<a href="#" class="btn btn-primary">
+								<i class="fas fa-edit"></i>
+							</a><br><br>
+							<a href="#" class="btn btn-danger" onclick="return confirm('Êtes-sûr de vouloir supprimer l'annonce ?')">
+								<i class="fas fa-trash"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
