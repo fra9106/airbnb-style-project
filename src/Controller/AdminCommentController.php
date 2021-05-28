@@ -41,7 +41,7 @@ class AdminCommentController extends AbstractController
             $manager->persist($comment);
             $manager->flush();
 
-            $this->addFlash('success', "le commentaire numéro : {$comment->getId()} a bien été modififié 🤗");
+            $this->addFlash('success', "Le commentaire numéro : {$comment->getId()} a bien été modififié 🤗");
 
             return $this->redirectToRoute('admin_comments_list');
         }
@@ -50,6 +50,23 @@ class AdminCommentController extends AbstractController
             'form' => $form->createView(),
             'comment' => $comment
         ]);
+    }
+
+    /**
+     * @Route("/admin/comment/{id}/delete", name="admin_comment_delete")
+     *
+     * @param Comment $comment
+     * @param EntityManagerInterface $manager
+     * @return void
+     */
+    public function adminCommentDelete(Comment $comment, EntityManagerInterface $manager)
+    {
+        $manager->remove($comment);
+        $manager->flush();
+
+        $this->addFlash('success', "❌ Le commentaire numéro : {$comment->getId()} a bien été supprimé !");
+
+        return $this->redirectToRoute('admin_comments_list');
 
     }
 }
