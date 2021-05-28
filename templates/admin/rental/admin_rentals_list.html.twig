@@ -36,10 +36,10 @@
 							<span class="badge bg-primary rounded">{{rental.avgRatings | number_format(1, ',', ' ')}}</span>
 						</td>
 						<td>
-							<a href="#" class="btn btn-primary">
+							<a href="{{ path('app_admin_rental_edit', {'id': rental.id}) }}" class="btn btn-primary">
 								<i class="fas fa-edit"></i>
 							</a>
-							<a href="#" class="btn btn-danger">
+							<a href="{{ path('app_admin_rental_delete', {'id': rental.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-sûr de vouloir supprimer l'annonce ?')">
 								<i class="fas fa-trash"></i>
 							</a>
 						</td>
@@ -47,6 +47,5 @@
 				{% endfor %}
 			</tbody>
 		</table>
-
 	</div>
 {% endblock %}

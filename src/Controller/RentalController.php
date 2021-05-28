@@ -124,7 +124,7 @@ class RentalController extends AbstractController
      *
      * @return Response
      */
-    public function rentalEdit(Rental $rental, Request $request, EntityManagerInterface $manager):Response
+    public function rentalEdit(Rental $rental, Request $request, EntityManagerInterface $manager): Response
     {
         $rental->setUpdateAt(new \Datetime());
         $form = $this->createForm(RentalType::class, $rental);
@@ -171,7 +171,7 @@ class RentalController extends AbstractController
 
         $this->addFlash(
             'message',
-            "Votre annonce a bien été supprimée !"
+            " ❌ Votre annonce a bien été supprimée !"
         );
 
         return $this->redirectToRoute(
