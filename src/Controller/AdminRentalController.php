@@ -38,7 +38,6 @@ class AdminRentalController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $manager->persist($rental);
             $manager->flush();
 
             $this->addFlash('success', "l'annonce : {$rental->getTitle()} a bien été modififié 🤗");

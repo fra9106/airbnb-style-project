@@ -136,10 +136,7 @@ class RentalController extends AbstractController
                 $manager->persist($image);
             }
 
-
-            $manager->persist($rental);
             $manager->flush();
-
 
             $this->addFlash(
                 'message',

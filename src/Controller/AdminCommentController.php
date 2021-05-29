@@ -38,7 +38,6 @@ class AdminCommentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $manager->persist($comment);
             $manager->flush();
 
             $this->addFlash('success', "Le commentaire numéro : {$comment->getId()} a bien été modififié 🤗");
