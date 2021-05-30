@@ -44,7 +44,7 @@ class AdminBookingController extends AbstractController
             //pas besoin de persister, la résa existe déjà!
             $manager->flush();
 
-            $this->addFlash('success', "La résa numéro : {$booking->getId()} a bien été modififié 🤗");
+            $this->addFlash('success', "La résa numéro : {$booking->getId()} a bien été modifiée 🤗");
 
             return $this->redirectToRoute('admin_bookings_list');
         }

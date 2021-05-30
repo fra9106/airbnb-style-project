@@ -17,8 +17,8 @@ class ProfileFormType extends GetConfigType
     {
         $builder
 
-        ->add('first_name', TextType::class, $this->getConfigurationForm('Nom','Votre nom'))
-        ->add('last_name', TextType::class, $this->getConfigurationForm('prénom','Votre prénom'))
+        ->add('first_name', TextType::class, $this->getConfigurationForm('Prénom','Votre prénom'))
+        ->add('last_name', TextType::class, $this->getConfigurationForm('Nom','Votre nom'))
         ->add('email',  EmailType::class, $this->getConfigurationForm('Email','Votre email'))
         ->add('picture', UrlType::class, $this->getConfigurationForm('Avatar','Choisisez un avatar'))
         ->add('introduction', TextType::class, $this->getConfigurationForm('Into','Choisisez une phrase qui vous représente le mieux'))

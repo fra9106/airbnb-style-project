@@ -1,7 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Admin | Modification de la résa numéro
-	{{booking.id}}
+{% block title %}Admin | Modification utilisateur
+	{{user.id}}
 {% endblock %}
 
 {% form_theme form _self %}
@@ -9,19 +9,20 @@
 {% block body %}
 	<div class="container-fluid">
 		<h1 class="my-5">Modification de la réservation N°
-			{{ booking.id }}</h1>
+			{{ user.id }}</h1>
 
 		{{ form_start(form) }}
 
 		<div class="row">
 			<div class="col">
-				{{ form_row(form.startAt) }}
-				{{ form_row(form.endAt) }}
-				{{ form_row(form.comment) }}
+				{{ form_row(form.firstName) }}
+				{{ form_row(form.lastName) }}
+                {{ form_row(form.lastName) }}
+				{{ form_row(form.picture) }}
 			</div>
 			<div class="col">
-				{{ form_row(form.booker) }}
-				{{ form_row(form.rental) }}
+				{{ form_row(form.introduction) }}
+				{{ form_row(form.description) }}
 				<br>
 				<button type="submit" class="btn btn-primary">
 					<i class="fas fa-check"></i>

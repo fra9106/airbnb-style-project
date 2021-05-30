@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Modification de l'annonce numéro
+{% block title %}Admin | Modification de l'annonce numéro
 	{{rental.id}}
 {% endblock %}
 
@@ -118,6 +118,7 @@
 		<div class="col-4">
 			{% if value %}
 				<img src="{{value.url}}" class="img-fluid" alt="">
+				{{ form_row(form.url) }}
 			{% endif %}
 		</div>
 		<div class="col-6">

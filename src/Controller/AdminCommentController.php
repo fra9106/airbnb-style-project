@@ -40,7 +40,7 @@ class AdminCommentController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('success', "Le commentaire numéro : {$comment->getId()} a bien été modififié 🤗");
+            $this->addFlash('success', "Le commentaire numéro : {$comment->getId()} a bien été modifié 🤗");
 
             return $this->redirectToRoute('admin_comments_list');
         }

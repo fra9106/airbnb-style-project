@@ -14,12 +14,11 @@
 
 					{{ form_start(profileForm) }}
 					{{ form_row(profileForm.first_name) }}
+					{{ form_row(profileForm.last_name) }}
 					{{ form_row(profileForm.picture) }}
 					{{ form_row(profileForm.email) }}
 					{{ form_row(profileForm.introduction) }}
 					{{ form_row(profileForm.description) }}
-					{{ form_row(profileForm.last_name) }}
-
 					<button type="submit" class="btn btn-primary my-4"><i class="fas fa-check"></i> Enregistrer les modifications</button>
 					{{ form_end(profileForm) }}
 				</div>

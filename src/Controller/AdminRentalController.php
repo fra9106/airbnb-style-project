@@ -40,7 +40,9 @@ class AdminRentalController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('success', "l'annonce : {$rental->getTitle()} a bien été modififié 🤗");
+            $this->addFlash('success', "l'annonce : {$rental->getTitle()} a bien été modifié 🤗");
+
+            return $this->redirectToRoute('app_admin_rentals_list');
         }
 
         return $this->render('admin/rental/admin_rental_edit.html.twig', [
