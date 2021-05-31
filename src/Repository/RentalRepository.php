@@ -19,6 +19,19 @@ class RentalRepository extends ServiceEntityRepository
         parent::__construct($registry, Rental::class);
     }
 
+    public function findBestRentals($limit)
+    {
+        return $this->createQueryBuilder('r')
+                    ->select('r as rental, AVG(c.rating) as avgRatings')
+                    ->join('r.comments', 'c')
+                    ->groupBy('r')
+                    ->orderBy('avgRatings','DESC')
+                    ->setMaxResults($limit)
+                    ->getQuery()
+                    ->getResult();
+
+    }
+
     // /**
     //  * @return Rental[] Returns an array of Rental objects
     //  */

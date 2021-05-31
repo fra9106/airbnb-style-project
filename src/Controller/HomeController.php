@@ -11,17 +11,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     /**
-    * @Route("/", name="app_homepage")
-    *
-    * @return void
-    */
-    public function homepageRentalsList(RentalRepository $rentalRepository)
+     * @Route("/", name="app_homepage")
+     *
+     * @return void
+     */
+    public function homepageRentalsList(RentalRepository $rentals, UserRepository $users)
     {
-        $rentals = $rentalRepository->findBy([], [], 3);
-        
+
         return $this->render('home/home.html.twig', [
-            'rentals' => $rentals
-            
+            'rentals' => $rentals->findBestRentals(3),
+            'users' => $users->findBestUsers(2)
+
         ]);
     }
 }

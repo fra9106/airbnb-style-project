@@ -14,77 +14,29 @@
 				<a class="btn btn-info btn-lg" href="{{ path('app_rentals_list') }}" role="button">Voir nos annonces</a>
 			</p>
 		</div>
-
 		<h2 class="h1 my-5">Nos appartements stars</h2>
 		<div class="row">
-			{% for rental in rentals %}
-	<div class="col-md-4">
-		<div class="card bg-light mb-3 rounded ">
-			<div class="card-header text-center">
-				{{ rental.rooms }}
-				chambres,
-				<strong>{{ rental.price | number_format(2, ',', ' ') }}&euro; / nuit</strong>
-				<br>
-				{% if rental.comments|length > 0 %}
-                {% include 'shared/rating.html.twig' with {'rating': rental.avgRatings} %}
-            {% else %}
-                <small>Pas encore noté</small>
-            {% endif %}
-			</div>
-			<img src="{{ rental.coverImage }}" alt="Image de l'appartement" style="height: 200px; width: 100%; display: block">
-			<div class="card-body">
-				<h4 class="card-title">
-					{{ rental.title }}
-				</h4>
-				<p class="card-text">
-					{{ rental.introduction }}
-				</p>
-				<a href="{{ path('app_rental_show', { 'category_slug' : rental.category.slug, 'slug': rental.slug}) }}" class="btn btn-primary">En savoir plus !</a>
-
-				{% if app.user and app.user == rental.author %}
-					<a href="#" class="btn btn-secondary">Modifier l'annonce</a>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-{% endfor %}
+			{% for data in rentals %}
+				{% include "rental/_rental.html.twig" with {'rental': data.rental} %}
+			{% endfor %}
 		</div>
 		<h2 class="h1 my-5">Nos Accueillants stars</h2>
 		<div class="row">
-
-			<div class="col">
-				<div class="card border-secondary mb-3">
-					<div class="card-body">
-						<h4 class="card-title">Michel Belpêche</h4>
-
-						<hr>
-
-						<div class="card-text">
-							<img src="https://randomuser.me/api/portraits/men/92.jpg" alt="Avatar de Michel Belpêche" class="float-left mr-3 avatar">
-							<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut magnam ex consequuntur. Quod quasi placeat quibusdam quidem qui dolorum magnam excepturi. Hic aliquid laboriosam voluptate accusantium iusto minus, dignissimos veritatis!
-							</p>
-							<a href="#" class="btn btn-success float-right">En savoir plus!</a>
+			{% for data in users %}
+				<div class="col">
+					<div class="card border-secondary mb-3">
+						<div class="card-body">
+							<h4 class="card-title">{{data.user.fullName}}</h4>
+							<hr>
+							<div class="card-text">
+								<img src="{{ data.user.picture }}" alt="Avatar de {{ data.user.fullName }}" class="float-left mr-3 avatar">
+								<p>{{ data.user.introduction }}</p>
+								<a href="{{ path('app_profile_display', {'slug': data.user.slug}) }}" class="btn btn-success float-right">En savoir plus!</a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col">
-				<div class="card border-secondary mb-3">
-					<div class="card-body">
-						<h4 class="card-title">Franck B.</h4>
-
-						<hr>
-
-						<div class="card-text">
-							<img src="https://randomuser.me/api/portraits/men/50.jpg" alt="Avatar de Franck B." class="float-left mr-3 avatar">
-							<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut magnam ex consequuntur. Quod quasi placeat quibusdam quidem qui dolorum magnam excepturi. Hic aliquid laboriosam voluptate accusantium iusto minus, dignissimos veritatis!
-							</p>
-							<a href="#" class="btn btn-success float-right">En savoir plus!</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
+			{% endfor %}
 		</div>
 	</div>
 {% endblock %}
