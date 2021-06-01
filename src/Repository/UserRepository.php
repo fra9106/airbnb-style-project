@@ -42,7 +42,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->join('u.rentals', 'r')
             ->select('u as user, AVG(r) as number, COUNT(r) as sumRentals')
             ->groupBy('u')
-            ->having('sumRentals > 4')
+            ->having('sumRentals > 3')
             ->orderBy('number', 'ASC')
             ->setMaxResults($limit)
             ->getQuery()

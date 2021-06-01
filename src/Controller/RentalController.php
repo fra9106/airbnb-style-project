@@ -6,6 +6,7 @@ use App\Entity\Rental;
 use App\Form\RentalType;
 use App\Repository\RentalRepository;
 use App\Repository\CategoryRepository;
+use App\Services\Paginator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,15 +26,17 @@ class RentalController extends AbstractController
     }
 
     /**
-     * @Route("/rentals-list", name="app_rentals_list")
+     * @Route("/rentals-list/{page<\d+>?1}", name="app_rentals_list")
      *
      * @return Response
      */
-    public function RentalsList(RentalRepository $rentalRepository)
+    public function RentalsList(RentalRepository $rentalRepository, $page, Paginator $pagination)
     {
-        $rentals = $rentalRepository->findBy([], ['createdAt' => 'DESC']);
+        $pagination->setEntityClass(Rental::class)
+            ->setPage($page);
+
         return $this->render('rental/rental.html.twig', [
-            'rentals' => $rentals
+            'pagination' => $pagination
         ]);
     }
 
