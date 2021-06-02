@@ -95,7 +95,7 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="booker")
+     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="booker", orphanRemoval=true)
      * @OrderBy({"createdAt" = "DESC"})
      */
     private $bookings;

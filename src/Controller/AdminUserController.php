@@ -64,7 +64,7 @@ class AdminUserController extends AbstractController
 
         $this->addFlash('success', "❌ La résa de : {$user->getFullName()} a bien été supprimée ");
 
-        return $this->redirectToRoute('admin_user_list');
+        return $this->redirectToRoute('admin_users_list');
     }
     
 }
