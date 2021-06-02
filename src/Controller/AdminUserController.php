@@ -62,7 +62,7 @@ class AdminUserController extends AbstractController
         $manager->remove($user);
         $manager->flush();
 
-        $this->addFlash('success', "❌ La résa de : {$user->getFullName()} a bien été supprimée ");
+        $this->addFlash('success', "❌ {$user->getFullName()} a bien été supprimée ");
 
         return $this->redirectToRoute('admin_users_list');
     }

@@ -103,7 +103,7 @@ class Rental
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="rental")
+     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="rental", orphanRemoval=true)
      */
     private $bookings;
 
