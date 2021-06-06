@@ -4,9 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Rental;
 use App\Form\RentalType;
-use App\Repository\RentalRepository;
-use App\Repository\CategoryRepository;
 use App\Services\Paginator;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +29,7 @@ class RentalController extends AbstractController
      *
      * @return Response
      */
-    public function RentalsList(RentalRepository $rentalRepository, $page, Paginator $pagination)
+    public function RentalsList($page, Paginator $pagination)
     {
         $pagination->setEntityClass(Rental::class)
             ->setPage($page);
@@ -74,7 +73,7 @@ class RentalController extends AbstractController
             );
 
             return $this->redirectToRoute(
-                'app_rentals_list'
+                'app_homepage'
             );
         }
 

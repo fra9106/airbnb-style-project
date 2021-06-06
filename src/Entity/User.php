@@ -86,6 +86,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Rental::class, mappedBy="author", orphanRemoval=true)
+     * 
      */
     private $rentals;
 

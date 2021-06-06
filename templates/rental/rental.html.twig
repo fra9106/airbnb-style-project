@@ -5,7 +5,7 @@
 
 {% block body %}
 	<div class="container">
-		<h1>Voici les annonces de nos hôtes !</h1>
+		<h1 class='my-5'>Voici la liste des locations de nos hôtes :</h1>
 		<div class="row">
 			{% for rental in pagination.data %}
 				{% include "rental/_rental.html.twig" %}

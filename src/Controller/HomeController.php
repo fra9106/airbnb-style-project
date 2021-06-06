@@ -15,10 +15,11 @@ class HomeController extends AbstractController
      *
      * @return void
      */
-    public function homepageRentalsList(RentalRepository $rentals, UserRepository $users)
+    public function homepageRentalsList(RentalRepository $rentals, RentalRepository $rentalsByOrderDateDesc, UserRepository $users)
     {
 
         return $this->render('home/home.html.twig', [
+            'rentalsByOrderDateDesc' => $rentalsByOrderDateDesc->findByOrderDateDesc(3),
             'rentals' => $rentals->findBestRentals(3),
             'users' => $users->findBestUsers(2)
 

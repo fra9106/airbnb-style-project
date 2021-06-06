@@ -19,6 +19,16 @@ class RentalRepository extends ServiceEntityRepository
         parent::__construct($registry, Rental::class);
     }
 
+    public function findByOrderDateDesc($limit)
+    {
+        return $this->createQueryBuilder('r')
+                    ->select('r as rental')
+                    ->orderBy('r.createdAt', 'DESC')
+                    ->setMaxResults($limit)
+                    ->getQuery()
+                    ->getResult();
+    }
+
     public function findBestRentals($limit)
     {
         return $this->createQueryBuilder('r')
