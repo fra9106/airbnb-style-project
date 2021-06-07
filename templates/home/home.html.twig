@@ -9,7 +9,7 @@
 			<h1 class="display-5">Bienvenue sur le site d'un Hôte à l'autre 🤩</h1>
 			<p class="lead">Nous mettons en relations les voyageurs et les propriétaires qui veulent mettre leur bien à la location !</p>
 			<hr class="my-4">
-			<p>Vous êtes voyageur ? Et vous voulez voir où vous pourrez loger pour votre prochain déplacement ?</p>
+			<p>Vous êtes en mode touriste ? En déplacement professionnel ? Et vous voulez réserver une location chez l'habitant ? ?</p>
 			<p class="lead">
 				<a class="btn btn-info btn-lg" href="{{ path('app_rentals_list') }}" role="button">Voir nos locations</a>
 			</p>
@@ -20,7 +20,7 @@
 				{% include "rental/_rental.html.twig" with {'rental': data.rental} %}
 			{% endfor %}
 		</div>
-		<h2 class="h1 my-5">Nos appartements stars</h2>
+		<h2 class="h1 my-5">Nos locations stars</h2>
 		<div class="row">
 			{% for data in rentals %}
 				{% include "rental/_rental.html.twig" with {'rental': data.rental} %}
